@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CommentKeyPhrases">
+          <Key>
+            <PropertyRef Name="KeyPhraseId" />
+          </Key>
+          <Property Name="KeyPhraseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phrase" Type="nvarchar" MaxLength="50" />
+          <Property Name="RedditId" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="RedditId" />
+          </Key>
+          <Property Name="RedditId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ParentRedditId" Type="nvarchar" MaxLength="10" />
+          <Property Name="UpVotes" Type="int" />
+          <Property Name="DownVotes" Type="int" />
+          <Property Name="CreatedUTC" Type="datetime2" Precision="0" />
+          <Property Name="Sentiment" Type="float" />
+          <Property Name="Language" Type="nvarchar" MaxLength="5" />
+          <Property Name="SubReddit" Type="nvarchar" MaxLength="150" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="Year" Type="smallint" />
+          <Property Name="Month" Type="tinyint" />
+          <Property Name="Daynumber" Type="tinyint" />
+          <Property Name="Hours" Type="tinyint" />
+          <Property Name="Minutes" Type="tinyint" />
+          <Property Name="Seconds" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_CommentKeyPhrases_Comments">
+          <End Role="Comments" Type="Self.Comments" Multiplicity="1" />
+          <End Role="CommentKeyPhrases" Type="Self.CommentKeyPhrases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comments">
+              <PropertyRef Name="RedditId" />
+            </Principal>
+            <Dependent Role="CommentKeyPhrases">
+              <PropertyRef Name="RedditId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="CommentKeyPhrases" EntityType="Self.CommentKeyPhrases" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CommentKeyPhrases_Comments" Association="Self.FK_CommentKeyPhrases_Comments">
+            <End Role="Comments" EntitySet="Comments" />
+            <End Role="CommentKeyPhrases" EntitySet="CommentKeyPhrases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CommentKeyPhrases">
+          <Key>
+            <PropertyRef Name="KeyPhraseId" />
+          </Key>
+          <Property Name="KeyPhraseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phrase" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RedditId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_CommentKeyPhrases_Comments" FromRole="CommentKeyPhrases" ToRole="Comments" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="RedditId" />
+          </Key>
+          <Property Name="RedditId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParentRedditId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UpVotes" Type="Int32" />
+          <Property Name="DownVotes" Type="Int32" />
+          <Property Name="CreatedUTC" Type="DateTime" Precision="0" />
+          <Property Name="Sentiment" Type="Double" />
+          <Property Name="Language" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="SubReddit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int16" />
+          <Property Name="Month" Type="Byte" />
+          <Property Name="Daynumber" Type="Byte" />
+          <Property Name="Hours" Type="Byte" />
+          <Property Name="Minutes" Type="Byte" />
+          <Property Name="Seconds" Type="Byte" />
+          <NavigationProperty Name="CommentKeyPhrases" Relationship="Self.FK_CommentKeyPhrases_Comments" FromRole="Comments" ToRole="CommentKeyPhrases" />
+        </EntityType>
+        <Association Name="FK_CommentKeyPhrases_Comments">
+          <End Role="Comments" Type="Self.Comments" Multiplicity="1" />
+          <End Role="CommentKeyPhrases" Type="Self.CommentKeyPhrases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comments">
+              <PropertyRef Name="RedditId" />
+            </Principal>
+            <Dependent Role="CommentKeyPhrases">
+              <PropertyRef Name="RedditId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CommentKeyPhrases" EntityType="Self.CommentKeyPhrases" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" />
+          <AssociationSet Name="FK_CommentKeyPhrases_Comments" Association="Self.FK_CommentKeyPhrases_Comments">
+            <End Role="Comments" EntitySet="Comments" />
+            <End Role="CommentKeyPhrases" EntitySet="CommentKeyPhrases" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="CommentKeyPhrases">
+            <EntityTypeMapping TypeName="Model.CommentKeyPhrases">
+              <MappingFragment StoreEntitySet="CommentKeyPhrases">
+                <ScalarProperty Name="KeyPhraseId" ColumnName="KeyPhraseId" />
+                <ScalarProperty Name="Phrase" ColumnName="Phrase" />
+                <ScalarProperty Name="RedditId" ColumnName="RedditId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="Model.Comments">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="RedditId" ColumnName="RedditId" />
+                <ScalarProperty Name="ParentRedditId" ColumnName="ParentRedditId" />
+                <ScalarProperty Name="UpVotes" ColumnName="UpVotes" />
+                <ScalarProperty Name="DownVotes" ColumnName="DownVotes" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Sentiment" ColumnName="Sentiment" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="SubReddit" ColumnName="SubReddit" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Daynumber" ColumnName="Daynumber" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Minutes" ColumnName="Minutes" />
+                <ScalarProperty Name="Seconds" ColumnName="Seconds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
