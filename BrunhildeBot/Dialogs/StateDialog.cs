@@ -12,7 +12,7 @@ namespace BrunhildeBot.Dialogs
     [Serializable]
     public class StateDialog : IDialog<object>
     {
-        private const string HelpMessage = "\n * If you want to know which reddit I'm using for my searches type 'current reddit'. \n * Want to change the current reddit? Type 'change reddit to subreddit'. \n * Want to change it just for your searches? Type 'change my reddit to redditname'";
+        private const string HelpMessage = "\n * If you want to know which reddit I'm using for my searches type 'current reddit'. \n * Want to change the current reddit? Type 'change reddit to ...'. \n * Want to change it just for your searches? Type 'change my reddit to ....'";
         private bool userWelcomed;
 
         public async Task StartAsync(IDialogContext context)

@@ -4,6 +4,6 @@
     {
         public const string UserNameKey = "UserName";
 
-        public const string Key = "Key";
+        public const string Key = "all";
     }
 }
